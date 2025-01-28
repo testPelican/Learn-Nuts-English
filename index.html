@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ucz się nazw orzechów!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-image {
+            max-width: 200px;
+            height: auto;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .option-button {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="score">Wynik: <span id="score">0</span></div>
+        <div class="question-container">
+            <img id="questionImage" class="question-image" src="/api/placeholder/200/200" alt="Orzech" style="display: none;">
+            <div id="questionText" class="question-text"></div>
+        </div>
+        <div class="options-container" id="options"></div>
+    </div>
+
+    <script>
+        let nuts = [
+            {
+                english: 'Walnut',
+                polish: 'Orzech włoski',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Peanut',
+                polish: 'Orzech ziemny',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Hazelnut',
+                polish: 'Orzech laskowy',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Almond',
+                polish: 'Migdał',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Cashew',
+                polish: 'Nerkowiec',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Pistachio',
+                polish: 'Pistacja',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Brazil nut',
+                polish: 'Orzech brazylijski',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Macadamia',
+                polish: 'Orzech makadamia',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Pine nut',
+                polish: 'Orzech piniowy',
+                image: '/api/placeholder/200/200'
+            },
+            {
+                english: 'Pecan',
+                polish: 'Orzech pekan',
+                image: '/api/placeholder/200/200'
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // Question types:
+        // 1. Image → English answers
+        // 2. Image → Polish answers
+        // 3. Polish word → English answers
+        // 4. English word → Polish answers
+        const questionTypes = [
+            {
+                showType: 'image',
+                answerLanguage: 'english',
+                getMessage: (nut) => `Co to jest?`,
+                getAnswer: (nut) => nut.english,
+                getAllAnswers: (nuts) => nuts.map(n => n.english)
+            },
+            {
+                showType: 'image',
+                answerLanguage: 'polish',
+                getMessage: (nut) => `Jak to się nazywa po polsku?`,
+                getAnswer: (nut) => nut.polish,
+                getAllAnswers: (nuts) => nuts.map(n => n.polish)
+            },
+            {
+                showType: 'polish',
+                answerLanguage: 'english',
+                getMessage: (nut) => `Jak po angielsku nazywa się "${nut.polish}"?`,
+                getAnswer: (nut) => nut.english,
+                getAllAnswers: (nuts) => nuts.map(n => n.english)
+            },
+            {
+                showType: 'english',
+                answerLanguage: 'polish',
+                getMessage: (nut) => `Jak po polsku nazywa się "${nut.english}"?`,
+                getAnswer: (nut) => nut.polish,
+                getAllAnswers: (nuts) => nuts.map(n => n.polish)
+            }
+        ];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function getRandomWrongAnswers(correctAnswer, allPossibleAnswers, count) {
+            const wrongAnswers = allPossibleAnswers.filter(answer => answer !== correctAnswer);
+            return shuffleArray(wrongAnswers).slice(0, count);
+        }
+
+        function displayQuestion() {
+            const nut = nuts[currentQuestionIndex];
+            const questionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+            
+            const questionImage = document.getElementById('questionImage');
+            const questionText = document.getElementById('questionText');
+            const optionsContainer = document.getElementById('options');
+
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+
+            // Display question
+            if (questionType.showType === 'image') {
+                questionImage.style.display = 'block';
+                questionImage.src = nut.image;
+                questionText.textContent = questionType.getMessage(nut);
+            } else {
+                questionImage.style.display = 'none';
+                questionText.textContent = questionType.getMessage(nut);
+            }
+
+            // Get correct answer and all possible answers in the correct language
+            const correctAnswer = questionType.getAnswer(nut);
+            const allPossibleAnswers = questionType.getAllAnswers(nuts);
+
+            // Get wrong answers and combine with correct answer
+            const wrongAnswers = getRandomWrongAnswers(correctAnswer, allPossibleAnswers, 3);
+            const allOptions = shuffleArray([correctAnswer, ...wrongAnswers]);
+
+            // Display options
+            allOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, correctAnswer, nut, questionType);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer, correctAnswer, nut, questionType) {
+            const isCorrect = selectedAnswer === correctAnswer;
+
+            if (isCorrect) {
+                score++;
+                document.getElementById('score').textContent = score;
+            }
+
+            let feedbackMessage;
+            if (isCorrect) {
+                feedbackMessage = questionType.answerLanguage === 'english' ?
+                    `Świetnie! ${nut.polish} to ${nut.english}` :
+                    `Świetnie! ${nut.english} to ${nut.polish}`;
+            } else {
+                feedbackMessage = questionType.answerLanguage === 'english' ?
+                    `Niepoprawnie. ${nut.polish} to ${nut.english}` :
+                    `Niepoprawnie. ${nut.english} to ${nut.polish}`;
+            }
+
+            Swal.fire({
+                title: isCorrect ? 'Poprawnie!' : 'Niepoprawnie!',
+                text: feedbackMessage,
+                icon: isCorrect ? 'success' : 'error',
+                confirmButtonText: 'Następne pytanie'
+            }).then(() => {
+                // Move to next question or wrap around to beginning
+                currentQuestionIndex = (currentQuestionIndex + 1) % nuts.length;
+                displayQuestion();
+            });
+        }
+
+        // Shuffle questions at start
+        nuts = shuffleArray(nuts);
+        
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
