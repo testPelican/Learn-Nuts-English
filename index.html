@@ -46,7 +46,7 @@
         }
 
         .question-image {
-            max-width: 200px;
+            max-width: 320px;
             height: auto;
             margin: 20px auto;
             border-radius: 10px;
@@ -100,55 +100,121 @@
     <script>
         let nuts = [
             {
-                english: 'Walnut',
-                polish: 'Orzech włoski',
-                image: '/api/placeholder/200/200'
+                english: 'Walnut in shell',
+                polish: 'Orzech włoski w skorupie',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/wanuts_inshell_33a79388-e3dc-464f-b95c-c711476db9d4_1024x1024.jpg'
             },
             {
-                english: 'Peanut',
-                polish: 'Orzech ziemny',
-                image: '/api/placeholder/200/200'
+                english: 'Walnut Halves',
+                polish: 'Połówki orzecha włoskiego',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Walnuts-Halves_acd8ee99-d242-4e17-b44e-051f09a95133.jpg'
             },
             {
-                english: 'Hazelnut',
-                polish: 'Orzech laskowy',
-                image: '/api/placeholder/200/200'
+                english: 'Walnut Pieces',
+                polish: 'Kawałki orzechów włoskich',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Walnuts-Pieces_745e990b-03d7-4218-b046-3e70b8b4dac7_1024x1024.jpg'
             },
             {
-                english: 'Almond',
-                polish: 'Migdał',
-                image: '/api/placeholder/200/200'
+                english: 'Nut Butter/Paste Roasted Peanut',
+                polish: 'Masło orzechowe/Pasta z prażonych orzeszków ziemnych',
+                image: 'https://naturalchoice.co.uk/cdn/shop/files/PNUTNEW_grande.jpg?v=1690538043'
             },
             {
-                english: 'Cashew',
-                polish: 'Nerkowiec',
-                image: '/api/placeholder/200/200'
+                english: 'Peanuts Roasted Salted',
+                polish: 'Orzeszki ziemne prażone solone',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Peanuts-Roasted-Salted_642d6828-d5ed-46df-b979-5fbf26a9276b_1024x1024.jpg'
             },
             {
-                english: 'Pistachio',
-                polish: 'Pistacja',
-                image: '/api/placeholder/200/200'
+                english: 'Hazelnuts In Shell',
+                polish: 'Orzechy laskowe w łupinach',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Hazels_inshell_1024x1024.jpg'
             },
             {
-                english: 'Brazil nut',
-                polish: 'Orzech brazylijski',
-                image: '/api/placeholder/200/200'
+                english: 'Almonds Natural Shelled',
+                polish: 'Migdały naturalne łuskane',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/almonds-natural-shelled_0b868648-a891-4d1c-ad82-aec14cee5910_1024x1024.jpg'
             },
             {
-                english: 'Macadamia',
-                polish: 'Orzech makadamia',
-                image: '/api/placeholder/200/200'
+                english: 'Whole Roasted Cashews',
+                polish: 'Nerkowce prażone w całości',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/cashew-nuts-roasted-whole_d833b269-e6e7-4157-89cb-bb39bac95306_1024x1024.jpg'
             },
             {
-                english: 'Pine nut',
-                polish: 'Orzech piniowy',
-                image: '/api/placeholder/200/200'
+                english: 'Pistachio Nuts Whole',
+                polish: 'Orzechy pistacjowe w całości',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Pistachio-Nuts-Whole_39c4bce2-83c6-470d-a44f-d95a0e265b18_1024x1024.jpg'
             },
             {
-                english: 'Pecan',
-                polish: 'Orzech pekan',
-                image: '/api/placeholder/200/200'
-            }
+                english: 'Brazil Nuts Whole',
+                polish: 'Orzechy brazylijskie całe',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/brazilnut-whole_1024x1024.jpg'
+            },
+            {
+                english: 'Macadamia Nuts Whole and Broken',
+                polish: 'Orzechy makadamia całe i łamane',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/macadamia-nuts-whole-and-broken_2df91821-f4ca-40b5-8e11-d1b5ef145d15_1024x1024.jpg'
+            },
+            {
+                english: 'Pine Kernels Whole',
+                polish: 'Jądra sosny w całości',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Pine-Kernels-Whole_4b407ac9-c1b6-480d-80bc-558d93f17696_1024x1024.jpg'
+            },
+            {
+                english: 'Pecan Nuts Halves',
+                polish: 'Połówki orzechów pekan',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Pecan-Nuts-Halves_2e83b4ab-8451-48f7-87d9-b73fba8aca27_1024x1024.jpg'
+            },
+            {
+                english: 'Almonds Blanched Ground',
+                polish: 'Migdały blanszowane mielone',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/almonds-blanched-ground_c2aa1eea-e485-4d00-9a8d-b4eb66509735_1024x1024.jpg'
+            },
+            {
+                english: 'Cashew Nuts Blanched Whole',
+                polish: 'Orzechy nerkowca blanszowane w całości',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/cashew-nuts-blanched-whole_b0b2145c-91f9-4662-9b96-20c6613c17b9_1024x1024.jpg'
+            },
+            {
+                english: 'Pecans in Shell',
+                polish: 'Pekany w łupinach',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Pecans_inshell_1024x1024.jpg'
+            },
+            {
+                english: 'Hazelnuts Roasted Whole',
+                polish: 'Orzechy laskowe prażone w całości',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Hazelnuts-Roasted-Whole_24e945fd-095d-493c-96f0-bcba1678ebdb_1024x1024.jpg'
+            },
+            {
+                english: 'Mixed Nuts In Shell',
+                polish: 'Orzechy mieszane w łupinach',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Mixednuts_1024x1024.jpg'
+            },
+            {
+                english: 'Hazelnuts Roasted Nibbed',
+                polish: 'Orzechy laskowe prażone w kawałkach',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Hazelnuts-Roasted-Nibbed_8c288f18-486f-4f81-916a-baa6cb25d090_1024x1024.jpg'
+            },
+            {
+                english: 'Nut Butter/Paste Roasted Almond',
+                polish: 'Masło orzechowe/Pasta z prażonych migdałów',
+                image: 'https://naturalchoice.co.uk/cdn/shop/files/ROASTALMNEW_1024x1024.jpg'
+            },
+            {
+                english: 'Nut Butter/Paste Roasted Hazelnut',
+                polish: 'Masło orzechowe/Pasta z prażonych orzechów laskowych',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/nut-paste-roasted-hazelnuts_1024x1024.jpg'
+            },
+            {
+                english: 'Pistachio Nuts Nibbed',
+                polish: 'Orzechy pistacjowe w kawałkach',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Pistachio-Nuts-Nibbed_c7422cc6-8d76-4639-b83f-61f0eb42875e_1024x1024.jpg'
+            },
+            {
+                english: 'Peanuts Roasted Nibbed',
+                polish: 'Orzeszki ziemne prażone w kawałkach',
+                image: 'https://naturalchoice.co.uk/cdn/shop/products/Peanuts-Roasted-Nibbed_66473c11-7079-46c9-95e5-9515de8d85a2_1024x1024.jpg'
+            },
+
         ];
 
         let currentQuestionIndex = 0;
